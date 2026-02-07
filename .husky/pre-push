@@ -1,0 +1,25 @@
+#!/bin/sh
+# Pre-push hook - Runs supervisor and blocks deployment if checks fail
+
+echo "🔍 Running Supervisor - Pre-deployment Checks..."
+node scripts/supervisor.js
+
+# Check exit code from supervisor
+EXIT_CODE=$?
+if [ $EXIT_CODE -ne 0 ]; then
+  echo ""
+  echo "❌ SUPERVISOR FOUND ISSUES"
+  echo "📋 Fix the above issues before deploying"
+  echo ""
+  echo "Deployment BLOCKED"
+  echo ""
+  echo "To bypass: git push --no-verify"
+  echo "Or commit with --no-verify"
+  exit 1
+else
+  echo ""
+  echo "✅ ALL SUPERVISOR CHECKS PASSED"
+  echo "🚀 Deployment APPROVED"
+  echo ""
+  echo "Pushing to remote..."
+fi
