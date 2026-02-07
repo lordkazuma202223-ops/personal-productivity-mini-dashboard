@@ -400,20 +400,20 @@ function runQAScenarios() {
       results.tests.push({
         name: scenario.name,
         description: scenario.description,
-        passed: true,
+        passed: true, // Treat as passed for non-blocking issues
         warning: true,
       });
       results.passed++;
       return;
     }
 
-    const result = runCommand(scenario.command, scenario.description);
+    const commandResult = runCommand(scenario.command, scenario.description);
     results.tests.push({
       name: scenario.name,
       description: scenario.description,
-      passed: result.success,
+      passed: commandResult.success,
     });
-    if (result.success) {
+    if (commandResult.success) {
       results.passed++;
     } else {
       results.failed++;
